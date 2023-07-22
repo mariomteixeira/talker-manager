@@ -2,6 +2,8 @@ const express = require('express');
 const fs = require('fs/promises');
 const path = require('path');
 const generateToken = require('./services/loginToken');
+const emailValidator = require('./middlewares/emailValidator');
+const passwdValidator = require('./middlewares/passwdValidator');
 
 const app = express();
 app.use(express.json());
@@ -48,7 +50,7 @@ app.get('/talker/:id', async (req, res) => {
 
 // CRIAÇÃO DE TOKEN PARA LOGIN
 
-app.post('/login', async (req, res) => {
+app.post('/login', emailValidator, passwdValidator, async (req, res) => {
   const token = generateToken();
   res.status(200).json({ token });
 });
