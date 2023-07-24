@@ -7,6 +7,7 @@ const passwdValidator = require('./middlewares/passwdValidator');
 const nameValidator = require('./middlewares/nameValidator');
 const ageValidator = require('./middlewares/ageValidator');
 const talkValidator = require('./middlewares/talkerValidator');
+const tknValidator = require('./middlewares/tokenValidator');
 
 const app = express();
 app.use(express.json());
@@ -59,3 +60,11 @@ app.post('/login', emailValidator, passwdValidator, async (req, res) => {
 });
 
 // POST para o endpoint /talker
+
+app.post('/talker', tknValidator, nameValidator, ageValidator, talkValidator, async (req, res) => {
+  const talker = await readFile();
+  const newTalker = { id: talker.length + 1, ...req.body };
+  talker.push(newTalker);
+  await fs.writeFile(talkerPathResolver, JSON.stringify(talker));
+  res.status(201).json(newTalker);
+});

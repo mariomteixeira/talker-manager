@@ -1,6 +1,6 @@
-const talkerValidator = (response, talker, next) => {
+const talkerValidator = (response, talker, message) => {
     if (!talker) {
-        response.status(400).json({ next });
+        response.status(400).json({ message });
         return false;
     }
     return true;
@@ -21,7 +21,7 @@ const rateValidator = (res, rate) => {
         return false;
     }
     if (!Number.isInteger(rate) || rate < 1 || rate > 5) {
-        res.status(400).json({ message: 'O campo "rate" deve ser um inteiro de 1 à 5' });
+        res.status(400).json({ message: 'O campo "rate" deve ser um número inteiro entre 1 e 5' });
         return false;
     }
     return true;
