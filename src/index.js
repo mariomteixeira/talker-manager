@@ -4,6 +4,9 @@ const path = require('path');
 const generateToken = require('./services/loginToken');
 const emailValidator = require('./middlewares/emailValidator');
 const passwdValidator = require('./middlewares/passwdValidator');
+const nameValidator = require('./middlewares/nameValidator');
+const ageValidator = require('./middlewares/ageValidator');
+const talkValidator = require('./middlewares/talkerValidator');
 
 const app = express();
 app.use(express.json());
@@ -54,3 +57,5 @@ app.post('/login', emailValidator, passwdValidator, async (req, res) => {
   const token = generateToken();
   res.status(200).json({ token });
 });
+
+// POST para o endpoint /talker
