@@ -88,3 +88,14 @@ app.put('/talker/:id',
     await fs.writeFile(talkerPathResolver, JSON.stringify(talker));
     res.status(200).json(newTalker);
   });
+
+// DELETE para o endpoint /talker/:id
+
+app.delete('/talker/:id', tknValidator, async (req, res) => {
+  const { id } = req.params;
+  const talker = await readFile();
+  const checkId = talker.filter((tlk) => tlk.id !== Number(id));
+  const updateTalker = JSON.stringify(checkId, null, 2);
+  await fs.writeFile(talkerPathResolver, updateTalker);
+  res.status(204).send();
+});
