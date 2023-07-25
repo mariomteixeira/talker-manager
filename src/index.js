@@ -35,6 +35,18 @@ app.get('/talker', async (_req, res) => {
   res.status(200).json(talker);
 });
 
+// GET para o endpoint /talker/search?q=searchTerm
+
+app.get('/talker/search', tknValidator, async (req, res) => {
+    const talker = await readFile();
+    const { q } = req.query;
+    if (!q) {
+      return res.status(200).json(talker);
+    }
+    const searchTalker = talker.filter((tlk) => tlk.name.includes(q));
+    res.status(200).json(searchTalker);
+  });
+
 // VALIDANDO O ID DO PALESTRANTE
 
 const validateId = async (ident) => {
