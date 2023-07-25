@@ -68,3 +68,23 @@ app.post('/talker', tknValidator, nameValidator, ageValidator, talkValidator, as
   await fs.writeFile(talkerPathResolver, JSON.stringify(talker));
   res.status(201).json(newTalker);
 });
+
+// PUT para o endpoint /talker/:id
+
+app.put('/talker/:id',
+  tknValidator,
+  nameValidator,
+  ageValidator,
+  talkValidator,
+  async (req, res) => {
+    const { id } = req.params;
+    const talker = await readFile();
+    const talkerIndex = talker.findIndex((tlk) => tlk.id === Number(id));
+    if (talkerIndex === -1) {
+      return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+    }
+    const newTalker = { id: Number(id), ...req.body };
+    talker[talkerIndex] = newTalker;
+    await fs.writeFile(talkerPathResolver, JSON.stringify(talker));
+    res.status(200).json(newTalker);
+  });
